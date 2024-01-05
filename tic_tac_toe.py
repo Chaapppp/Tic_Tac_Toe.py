@@ -104,3 +104,57 @@ Builder.load_string(
 
 
 )
+
+class Board(GridLayout):
+    LENGTH = 3
+    # Default difficult level is "hard"
+    DIFFICULTY = {
+        "baby": 0,
+        "easy": 2,
+        "medium": 4,
+        "hard": 6,
+        "impossible": LENGTH ** 2,
+    }
+
+    def __init__(self, **kwargs):
+        super().__init__()
+
+        self.cols = self.rows = Board.LENGTH
+        self.spacing = 2, 2
+        self.click_sound = SoundLoader.load(os.path.join("assets", "click.wav"))
+        self.game_start = SoundLoader.load(os.path.join("assets", "app_start.wav"))
+        self.new_game_starting = SoundLoader.load(os.path.join("assets", "start.wav"))
+        self.win_game = SoundLoader.load(os.path.join("assets", "win.mp3"))
+        self.lose_game = SoundLoader.load(os.path.join("assets", "lose.wav"))
+
+        self.first_player = self.current_player = kwargs.get(
+            "first_player", Player.HUMAN
+        )
+        self.game_mode = kwargs.get("game_mode", GameMode.SINGLE_PLAYER)
+        self.depth = Board.DIFFICULTY[kwargs.get("difficulty")]
+        self.button_list = [
+            [Cell() for _ in range(Board.LENGTH)] for _ in range(Board.LENGTH)
+        ]
+        self.popup = None
+        if self.game_start:
+            self.game_start.play()
+        self.init_buttons()
+        self.first_move()
+
+    def init_buttons(self, reset=False):
+
+        if self.new_game_starting:  # If the sound of new game is exist
+            self.new_game_starting.play()  # So, play it
+
+        board = BoxLayout(orientation="vertical")
+        grid = GridLayout(cols=3, rows=3, spacing=2)
+        for row in self.button_list:
+            for button in row:
+                button.bind(on_release=self.on_click)
+                if reset:
+                    button.text = ""
+                    button.background_color = 102 / 255, 102 / 255, 102 / 255, 0.5
+                else:
+                    grid.add_widget(button)
+
+        grid.pos_hint = {"x": 0.003, "y": 0}
