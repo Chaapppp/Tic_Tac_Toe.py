@@ -1,5 +1,20 @@
+import os
+
+from kivy.config import Config
+
+Config.set("graphics", "position", "custom")  
+Config.set("graphics", "left", 610)  
+Config.set("graphics", "top", 190)
+Config.set("graphics", "borderless", "1")  
+
 import kivy
 from kivy.app import App
+from kivy.uix.screenmanager import (
+    ScreenManager,
+    Screen,
+    SlideTransition,
+    SwapTransition,
+)
 from kivy.uix.modalview import ModalView
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
