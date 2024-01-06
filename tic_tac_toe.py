@@ -1,27 +1,26 @@
-import os
+import os 
 
-from kivy.config import Config
+from kivy.config import Config # ใช้เพื่อปรับเปลี่ยน attributes ของ Object
 
-Config.set("graphics", "position", "custom")  
-Config.set("graphics", "left", 610)  
-Config.set("graphics", "top", 190)
+Config.set("graphics", "position", "custom") 
+Config.set("graphics", "left", 610) 
+Config.set("graphics", "top", 190) 
 Config.set("graphics", "borderless", "1")  
 
 import kivy
-from kivy.app import App
+from kivy.app import App # เรียกใช้เพื่อสร้าง Kivy application
 from kivy.uix.screenmanager import (
     ScreenManager,
     Screen,
     SlideTransition,
     SwapTransition,
-)
-from kivy.uix.modalview import ModalView
-from kivy.core.window import Window
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
-from kivy.core.audio import SoundLoader
+) # เมื่อมีหลาย screen เรียกใช้เพื่อจัดการการเปลี่ยน screen ของ application
+from kivy.uix.modalview import ModalView # เรียกใช้เพื่อสร้าง modal views
+from kivy.core.window import Window # สร้าง Default window สำหรับ application
+from kivy.uix.boxlayout import BoxLayout # เรียกใช้เพื่อสร้าง BoxLayout widget
+from kivy.uix.button import Button # เรียกใช้เพื่อสร้างปุ่มกด
+from kivy.uix.label import Label # เรียกใช้เพื่อสร้าง Label widget สำหรับใส่ข้อความ
+from kivy.core.audio import SoundLoader 
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
 from copy import deepcopy
