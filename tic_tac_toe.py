@@ -105,7 +105,35 @@ Builder.load_string(
 )
 
 
+class SimpleBoard:
+
+    MAX_SCORE = 10000
+
+    def __init__(self, board):
+        self.__board = [[button.text for button in row] for row in board]
+
+    def __getitem__(self, index):
+        return self.__board[index]
+
+    def __len__(self):
+        return len(self.__board)
+
+    def __iter__(self):
+        return iter(self.__board)
+
+    def is_full(self):
+        return not any(
+            [symbol == Player.EMPTY.value for row in self.__board for symbol in row]
+        )
+
+    def has_won(self):
+        return abs(evaluate(self)) == SimpleBoard.MAX_SCORE
+
 def evaluate(board):
+    """
+    :param board:   The board to evaluate
+    :return:        :board:'s score based on the number of 2 in a rows
+    """ 
     lines = check_rows(board) + check_cols(board) + check_diags(board)
     two_in_row = [0, 0]
     for line in lines:
@@ -117,7 +145,6 @@ def evaluate(board):
     comp_score = 10 * two_in_row[0]
     player_score = 1.5 * 10 * two_in_row[1]
     return comp_score - player_score
-
 
 class Board(GridLayout):
     LENGTH = 3
