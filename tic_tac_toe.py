@@ -104,9 +104,23 @@ Builder.load_string(
 
 )
 
+
+def evaluate(board):
+    lines = check_rows(board) + check_cols(board) + check_diags(board)
+    two_in_row = [0, 0]
+    for line in lines:
+        for i in range(len(line)):
+            if line[i] == len(board):
+                return SimpleBoard.MAX_SCORE * (-1 if i == 1 else 1)
+            if line[i] == len(board) - 1 and line[1 - i] == 0:
+                two_in_row[i] += 1
+    comp_score = 10 * two_in_row[0]
+    player_score = 1.5 * 10 * two_in_row[1]
+    return comp_score - player_score
+
+
 class Board(GridLayout):
     LENGTH = 3
-    # Default difficult level is "hard"
     DIFFICULTY = {
         "baby": 0,
         "easy": 2,
@@ -142,8 +156,8 @@ class Board(GridLayout):
 
     def init_buttons(self, reset=False):
 
-        if self.new_game_starting:  # If the sound of new game is exist
-            self.new_game_starting.play()  # So, play it
+        if self.new_game_starting:  
+            self.new_game_starting.play()  
 
         board = BoxLayout(orientation="vertical")
         grid = GridLayout(cols=3, rows=3, spacing=2)
@@ -157,3 +171,4 @@ class Board(GridLayout):
                     grid.add_widget(button)
 
         grid.pos_hint = {"x": 0.003, "y": 0}
+
