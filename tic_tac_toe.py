@@ -115,7 +115,7 @@ class Player(Enum):
     COMPUTER = "O"
     HUMAN = "X"
     EMPTY = ""
-    
+
 class SimpleBoard:
 
     MAX_SCORE = 10000
@@ -252,3 +252,17 @@ def exitPopup(self, obj):  # The exit popup and its buttons
         )
 
         self.popup_exit.open()
+
+class GameScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(name=kwargs["name"])
+        board = BoxLayout(orientation="vertical")
+
+        self.grid = Board(
+            game_mode=kwargs.get("game_mode", GameMode.SINGLE_PLAYER),
+            first_player=kwargs.get("first_player", Player.HUMAN),
+            difficulty=kwargs.get("difficulty", "hard"),
+        )
+
+        board.add_widget(self.grid)
+        self.add_widget(board)
