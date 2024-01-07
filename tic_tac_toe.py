@@ -111,7 +111,11 @@ class MainMenu(Screen):
 class PlayMenu(Screen):
     pass
 
-
+class Player(Enum):
+    COMPUTER = "O"
+    HUMAN = "X"
+    EMPTY = ""
+    
 class SimpleBoard:
 
     MAX_SCORE = 10000
