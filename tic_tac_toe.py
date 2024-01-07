@@ -104,6 +104,13 @@ Builder.load_string(
 
 )
 
+class MainMenu(Screen):
+    pass
+
+
+class PlayMenu(Screen):
+    pass
+
 
 class SimpleBoard:
 
@@ -199,3 +206,45 @@ class Board(GridLayout):
 
         grid.pos_hint = {"x": 0.003, "y": 0}
 
+def exitPopup(self, obj):  # The exit popup and its buttons
+        self.box_popup = BoxLayout(
+            orientation="horizontal"
+        )  # Create a box layout fot the exit popup
+
+        self.popup_exit = Popup(
+            title="Confirmation",
+            title_align="justify",
+            title_size=30,
+            content=self.box_popup,
+            size_hint=(0.5, 0.4),
+            auto_dismiss=True,
+        )
+
+        # Add for it text and design and reposition it
+        self.box_popup.add_widget(
+            Label(
+                text="                               Are you sure you want to exit?",
+                font_size=22,
+                pos_hint={"x": 0, "y": 0.1},
+            )
+        )
+
+        self.box_popup.add_widget(
+            Button(
+                text="Yes",
+                on_release=self.bye,
+                size_hint=(0.45, 0.2),
+                background_color=(1, 0, 0, 1),
+            )
+        )
+
+        self.box_popup.add_widget(
+            Button(
+                text="No",
+                on_press=lambda *args: self.popup_exit.dismiss(),
+                size_hint=(0.45, 0.2),
+                background_color=(0.2, 0.8, 0.4, 1),
+            )
+        )
+
+        self.popup_exit.open()
