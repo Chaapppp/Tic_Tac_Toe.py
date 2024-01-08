@@ -158,6 +158,16 @@ def evaluate(board):
     player_score = 1.5 * 10 * two_in_row[1]
     return comp_score - player_score
 
+def check_rows(board):
+    """
+    :param board:   The game board or a list of rows
+    :return:        A list containing how many of each symbol is in each row in :board:
+    """
+    out = []
+    for row in board:
+        out.append((row.count(Player.COMPUTER.value), row.count(Player.HUMAN.value)))
+    return out
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
