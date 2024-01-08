@@ -176,6 +176,17 @@ def check_cols(board):
     transpose = [[row[i] for row in board] for i in range(len(board))]
     return check_rows(transpose)
 
+def check_diags(board):
+    """
+    :param board:   The game board
+    :return:        A list containing how many of each symbol is in each diagonal in :board:
+    """
+    diagonals = [
+        [board[i][i] for i in range(len(board))],
+        [board[i][len(board) - i - 1] for i in range(len(board))],
+    ]
+    return check_rows(diagonals)
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
