@@ -168,6 +168,14 @@ def check_rows(board):
         out.append((row.count(Player.COMPUTER.value), row.count(Player.HUMAN.value)))
     return out
 
+def check_cols(board):
+    """
+    :param board:   The game board
+    :return:        A list containing how many of each symbol is in each column in :board:
+    """
+    transpose = [[row[i] for row in board] for i in range(len(board))]
+    return check_rows(transpose)
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
