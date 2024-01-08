@@ -18,6 +18,7 @@ from kivy.uix.screenmanager import (
 from kivy.uix.modalview import ModalView # เรียกใช้เพื่อสร้าง modal views
 from kivy.core.window import Window # สร้าง Default window สำหรับ application
 from kivy.uix.boxlayout import BoxLayout # เรียกใช้เพื่อสร้าง BoxLayout widget
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button # เรียกใช้เพื่อสร้างปุ่มกด
 from kivy.uix.label import Label # เรียกใช้เพื่อสร้าง Label widget สำหรับใส่ข้อความ
 from kivy.core.audio import SoundLoader 
@@ -32,8 +33,8 @@ from kivy.core.window import Window
 
 
 Builder.load_string(
-
-    <Cell@Button>:
+    """
+<Cell@Button>:
     background_color: 102 / 255, 102 / 255, 102 / 255, 0.5
     font_size: 144
     background_normal: ''
@@ -101,7 +102,7 @@ Builder.load_string(
             outline_width: 4
             on_release: quit()
 
-
+"""
 )
 
 class MainMenu(Screen):
