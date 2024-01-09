@@ -216,6 +216,15 @@ def minimax(board, depth):
         return pick_highest(board)
     return make_move(board, Player.COMPUTER, alpha, beta, depth, depth)
 
+def pick_highest(board):
+    """
+    :param board:   The current gamestate
+    :return:        The move with the highest rating
+    """
+    options = get_possibilities(board, Player.COMPUTER.value)
+    scores = [evaluate(x[0]) for x in options]
+    return options[scores.index(max(scores))][1]
+
 def make_move(board, player, alpha, beta, depth, idepth):
     """
     :param board:   A simplified version of the current board
