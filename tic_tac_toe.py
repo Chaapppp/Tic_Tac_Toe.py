@@ -187,6 +187,18 @@ def check_diags(board):
     ]
     return check_rows(diagonals)
 
+def minimax(board, depth):
+    """
+    :param board:   The current gamestate
+    :param depth:   How many moves the function can look ahead
+    :return:        The i and j indexes of the best move
+    """
+    alpha = -inf
+    beta = inf
+    if depth <= 0:
+        return pick_highest(board)
+    return make_move(board, Player.COMPUTER, alpha, beta, depth, depth)
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
