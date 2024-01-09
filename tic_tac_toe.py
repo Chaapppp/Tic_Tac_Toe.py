@@ -141,6 +141,23 @@ class SimpleBoard:
     def has_won(self):
         return abs(evaluate(self)) == SimpleBoard.MAX_SCORE
 
+def get_possibilities(board, symbol):
+    """
+    :param board:   The board to insert :symbol: into
+    :param symbol:  The symbol to insert into :board:
+    :return:        A list of tuples containing:
+                    0 - A copy of :board: with :symbol: inserted into an empty spot
+                    1 - The indexes (i and j) where :symbol: was inserted
+    """
+    out = []
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == Player.EMPTY.value:
+                option = deepcopy(board)
+                option[i][j] = symbol
+                out.append((option, (i, j)))
+    return out
+
 def evaluate(board):
     """
     :param board:   The board to evaluate
