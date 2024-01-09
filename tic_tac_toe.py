@@ -216,6 +216,39 @@ def minimax(board, depth):
         return pick_highest(board)
     return make_move(board, Player.COMPUTER, alpha, beta, depth, depth)
 
+def make_move(board, player, alpha, beta, depth, idepth):
+    """
+    :param board:   A simplified version of the current board
+    :param player:  The player the algorithm is playing as (Can only be an instance of Player)
+                    (Note: the function maximises for the computer and minimises for the player)
+    :param alpha:   Lower bound for best_score
+    :param beta:    Upper bound for best_score
+    :param depth:   How many moves the algorithm can look ahead
+    :param idepth:  The initial depth
+    :return:        The best score or the index of the best move for :player:
+    """
+    val = evaluate(board)
+    if abs(val) == SimpleBoard.MAX_SCORE:
+        return val * (depth + 1)
+    if depth == 0 or board.is_full():
+        return val
+    options = get_possibilities(board, player.value)
+    n_player = Player.COMPUTER if player == Player.HUMAN else player.HUMAN
+    best_index = options[0][1]
+    best_score = make_move(options[0][0], n_player, alpha, beta, depth - 1, idepth)
+    for option in options[1:]:
+        score = make_move(option[0], n_player, alpha, beta, depth - 1, idepth)
+        if better_move(player, score, best_score):
+            best_index = option[1]
+            best_score = score
+        if alpha < best_score and player == Player.COMPUTER:
+            alpha = best_score
+        elif beta > best_score and player == Player.HUMAN:
+            beta = best_score
+        if beta <= alpha:
+            break
+    return best_score if depth != idepth else best_index
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
