@@ -267,6 +267,10 @@ def better_move(player, score, best_score):
     """
     return score > best_score if player == Player.COMPUTER else score < best_score
 
+class GameMode(Enum):
+    SINGLE_PLAYER = 0
+    MULTI_PLAYER = 1
+    
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
