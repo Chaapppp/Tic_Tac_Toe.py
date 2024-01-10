@@ -270,7 +270,7 @@ def better_move(player, score, best_score):
 class GameMode(Enum):
     SINGLE_PLAYER = 0
     MULTI_PLAYER = 1
-    
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
@@ -380,3 +380,6 @@ class GameScreen(Screen):
 
         board.add_widget(self.grid)
         self.add_widget(board)
+
+class Cell(Button):
+    pass
