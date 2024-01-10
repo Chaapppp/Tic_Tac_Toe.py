@@ -258,6 +258,15 @@ def make_move(board, player, alpha, beta, depth, idepth):
             break
     return best_score if depth != idepth else best_index
 
+def better_move(player, score, best_score):
+    """
+    :param player:      Tells the computer if looking for min or max scores (str, Player.HUMAN/Player.COMPUTER)
+    :param score:       The new score
+    :param best_score:  The previous best score
+    :return:            If :score: is better than :best_score:
+    """
+    return score > best_score if player == Player.COMPUTER else score < best_score
+
 class Board(GridLayout):
     LENGTH = 3
     DIFFICULTY = {
