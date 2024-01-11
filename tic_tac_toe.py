@@ -372,6 +372,17 @@ def bye(self, obj):
         self.popup_exit.dismiss()  
         self.reset_all(obj)  
 
+def updateScore(self, winner): 
+        ScoreBoardText = "[color=2040a3]Score Board:[/color]\n[color=000000]  [color=145128]X[/color]: {} – {} :[color=102e87]O[/color][/color]\n        [color=000000]D: {}[/color]"
+        global X, O, D  
+        if winner == "The Winner is X!":  
+            X += 1  
+        elif winner == "The winner is O!":  
+            O += 1  
+        else:
+            if winner == "It's a Draw!":
+                D += 1  
+        self.scoreboard.text = ScoreBoardText.format(X, O, D)
 
 class GameScreen(Screen):
     def __init__(self, **kwargs):
