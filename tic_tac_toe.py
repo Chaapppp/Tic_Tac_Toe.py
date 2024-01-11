@@ -367,6 +367,12 @@ def exitPopup(self, obj):  # The exit popup and its buttons
 
         self.popup_exit.open()
 
+def bye(self, obj):  
+        Bye().myfunc(self.scoreboard.text)
+        self.popup_exit.dismiss()  
+        self.reset_all(obj)  
+
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
