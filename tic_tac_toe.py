@@ -14,7 +14,11 @@ from kivy.uix.screenmanager import (
     Screen,
     SlideTransition,
     SwapTransition,
-) # เมื่อมีหลาย screen เรียกใช้เพื่อจัดการการเปลี่ยน screen ของ application
+    FadeTransition,
+    FallOutTransition,
+    RiseInTransition,
+    ShaderTransition
+)# เมื่อมีหลาย screen เรียกใช้เพื่อจัดการการเปลี่ยน screen ของ application
 from kivy.uix.modalview import ModalView # เรียกใช้เพื่อสร้าง modal views
 from kivy.core.window import Window # สร้าง Default window สำหรับ application
 from kivy.uix.boxlayout import BoxLayout # เรียกใช้เพื่อสร้าง BoxLayout widget
@@ -39,6 +43,68 @@ Builder.load_string(
     font_size: 144
     background_normal: ''
     background_down: ''
+
+<MyName@Screen>:
+    canvas:
+        # Color:
+        #     rgba: 255, 248, 220, 0         
+        Rectangle:
+            source: "pngtree-cute-white-square-graphic-baby-blue-background-picture-image_1348682.jpg" #เปลี่ยนภาพ
+            pos: self.pos
+            size: self.size 
+            # size: root.size
+            # pos: root.pos
+    Label:
+        size_hint: None, None
+        text: "[color=075951]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 1
+        font_size: 43
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) + 100
+    Label:
+        size_hint: None, None
+        text: "[color=075951]Enter Your Name[/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 1
+        font_size: 43
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) - 60
+    
+
+    GridLayout:
+        size_hint: None, None
+        size: root.width * 0.9, 100
+        pos: ((root.width / 2) - (self.width/ 2)), 175
+        spacing: 10
+        cols: 3  
+        TextInput:
+            id : your_name
+            hint_text : "Enter your name "
+            font_size: 20
+
+    GridLayout:
+
+        size_hint: None, None
+        size: root.width * 0.9, 100
+        pos: ((root.width / 2) - (self.width/ 2)), 50
+        spacing: 10
+        cols: 3
+
+        Button:
+            text: 'Confirm'
+            background_normal: ""
+            background_color: 0,61/255,153/255, 1
+            font_size: 35
+            markup: True
+            bold: True
+            color: 1, 1, 1, 1
+            outline_color: (0, 0, 0)
+            outline_width: 4
+            #color: 0, 153 / 255, 102 / 255, 0.7
+            on_press: root.manager.current = 'menu'
 
 <MainMenu@Screen>:
     name: 'home'
@@ -104,6 +170,10 @@ Builder.load_string(
 
 """
 )
+
+class MyName(Screen):
+    pass
+
 
 class MainMenu(Screen):
     pass
