@@ -454,6 +454,17 @@ def updateScore(self, winner):
                 D += 1  
         self.scoreboard.text = ScoreBoardText.format(X, O, D)
 
+def first_move(self):
+        """
+        Runs the first move if the first player is a computer
+        :return:    None
+        """
+        if (
+            self.game_mode == GameMode.SINGLE_PLAYER
+            and self.first_player == Player.COMPUTER
+        ):
+            self.computer_move()
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
