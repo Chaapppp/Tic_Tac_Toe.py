@@ -478,6 +478,15 @@ def on_click(self, touch):
         if not game_over and self.game_mode == GameMode.SINGLE_PLAYER:
             self.computer_move()
 
+def computer_move(self):
+        """
+        Makes the computer's move (Single-player only)
+        :return:        None
+        """
+        i, j = minimax(SimpleBoard(self.button_list), self.depth)
+        self.insert(self.button_list[i][j], self.current_player.value)
+        self.set_current_player()
+        
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
