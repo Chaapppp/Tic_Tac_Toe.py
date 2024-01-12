@@ -465,6 +465,19 @@ def first_move(self):
         ):
             self.computer_move()
 
+def on_click(self, touch):
+        """
+        Runs the code for the player's turn
+        :param touch:   The button that was pressed
+        :return:        None
+        """
+        if self.click_sound:
+            self.click_sound.play()
+        game_over = self.insert(touch, self.current_player.value)
+        self.set_current_player()
+        if not game_over and self.game_mode == GameMode.SINGLE_PLAYER:
+            self.computer_move()
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
