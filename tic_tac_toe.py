@@ -533,6 +533,15 @@ def insert(self, button, symbol):
 
         return has_won or is_full
 
+def end_message(self, message):
+        """
+        Displays an end message and asks user to start a new game or exit
+        :param message: The message to display
+        :return:        None
+        """
+        self.disabled = True
+        Clock.schedule_once(self.popup_contents, 2)
+
 def popup_contents(self, button):
         """
         Generates the contents for the end of game popup
