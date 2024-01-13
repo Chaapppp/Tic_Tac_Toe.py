@@ -582,7 +582,11 @@ def popup_contents(self, button):
         print(
             "\n~~~ New game is starting! ~~~\nClick everywhere in the screen to clear the board.\n"
         )
-        
+
+def dismiss_popup(self, dt):  
+        if self.popup:
+            self.popup.dismiss()
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
