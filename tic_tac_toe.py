@@ -533,6 +533,56 @@ def insert(self, button, symbol):
 
         return has_won or is_full
 
+def popup_contents(self, button):
+        """
+        Generates the contents for the end of game popup
+        :return:    The popup's contents
+        """
+
+        message = self.title
+        # Create a modal view popup and reposition and resize it
+        self.popup = ModalView(
+            size_hint=(0.4, 0.2),
+            background_color=(0, 153 / 255, 102 / 255, 0.7),
+            background="atlas://data/images/defaulttheme/action_item",
+        )
+
+        # Create and design the text labals, in a box layout
+        victory_label = BoxLayout(orientation="vertical")
+        # Add the first text label, with the winner
+        victory_label.add_widget(
+            Label(
+                text=message,
+                font_size=50,
+                bold=True,
+                markup=True,
+            )
+        )
+        # Add the second text label, with a message
+        victory_label.add_widget(
+            Label(
+                text="Click everywhere in the screen to clear the board",
+                font_size=25,
+                markup=True,
+                pos_hint={"x": 0, "y": -0.55},
+                outline_color=(0, 0, 0),
+                outline_width=1,
+                color=(1, 1, 1),
+            )
+        )
+
+        self.popup.add_widget(victory_label)  # Add the labal to the popup
+
+        # When the player click outside the popup, it dismiss. then, call the "reset" function to clear the board
+        self.popup.bind(on_dismiss=self.reset)
+        # Or, wait 2 seconds to auto dismiss
+        Clock.schedule_once(self.dismiss_popup, 2)
+        self.popup.open()  # Open the popup
+        # The board has been cleard and a new game is starting, so printing a message accordingly
+        print(
+            "\n~~~ New game is starting! ~~~\nClick everywhere in the screen to clear the board.\n"
+        )
+        
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
