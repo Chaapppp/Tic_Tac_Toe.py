@@ -486,7 +486,16 @@ def computer_move(self):
         i, j = minimax(SimpleBoard(self.button_list), self.depth)
         self.insert(self.button_list[i][j], self.current_player.value)
         self.set_current_player()
-        
+
+def set_current_player(self):
+        """
+        Sets the current player
+        :return:        None
+        """
+        self.current_player = (
+            Player.COMPUTER if self.current_player != Player.COMPUTER else Player.HUMAN
+        )
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
