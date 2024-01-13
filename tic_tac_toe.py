@@ -496,6 +496,43 @@ def set_current_player(self):
             Player.COMPUTER if self.current_player != Player.COMPUTER else Player.HUMAN
         )
 
+def insert(self, button, symbol):
+        """
+        Places :symbol: on :button: and then checks if the game has ended
+        :param button:  The button to place :symbol: on
+        :param symbol:  The :symbol: to place
+        :return:        If the game has ended
+        """
+
+        button.text = symbol
+        button.background_color = (
+            Color.O.value if symbol == Player.COMPUTER.value else Color.X.value
+        )
+        button.unbind(on_release=self.on_click)
+        board = SimpleBoard(self.button_list)
+
+        has_won = board.has_won()
+        is_full = board.is_full()
+        self.title = "It's a Draw!" if is_full else None
+        if symbol == "X":
+            self.title = "The Winner is X!" if has_won else self.title
+            if self.game_mode == GameMode.SINGLE_PLAYER and has_won:
+                if self.win_game:
+                    self.win_game.play()
+        if symbol == "O":
+            self.title = "The winner is O!" if has_won else self.title
+            if self.game_mode == GameMode.SINGLE_PLAYER and has_won:
+                if self.lose_game:
+                    self.lose_game.play()
+
+        if self.title is not None:
+            # Print a message accordingly
+            print("\n  ", self.title, "\n—————————————————————")
+            self.end_message(self.title)
+            self.updateScore(self.title)
+
+        return has_won or is_full
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
