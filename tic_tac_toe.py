@@ -261,10 +261,18 @@ Builder.load_string(
 )
 
 class MyName(Screen):
+    def click_me(self):
+        print('\nYou Have Confirmed Your Name')  #if select confirm, print a message accordingly
     pass
 
 
 class MainMenu(Screen):
+    def click_sp(self):
+        print('\nOne player Mode') #if select one player mode, print a message accordingly
+    def click_mp(self):
+        print('\nTwo players Mode') #if select two players mode, print a message accordingly
+    def click_exit(self):
+        print('\nGoodBye\n') #if select exit, print a message accordingly
     pass
 
 
