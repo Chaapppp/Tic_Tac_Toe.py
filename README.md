@@ -1,9 +1,8 @@
 # My Kivy Assignment
 
-(![Alt text](<Screenshot 2024-01-14 230906.jpg>))
-
 Original Code
 > https://github.com/GreenArmy18/Tic-Tac-Toe-Kivy
+
 
 ### Discription
 - A basic Tic-Tac-Toe game. Designed for single and two players.
@@ -16,7 +15,7 @@ Original Code
 - Click on the box to select where the symbol(O, X) will appear.
 
 #### One player mode
-- You are X
+- You are 'X'
 - Click on the box to select where the symbol X will appear.
 - Your opponent will be the computer
 - Good luck
