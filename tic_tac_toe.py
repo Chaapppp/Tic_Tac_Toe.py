@@ -4,10 +4,10 @@ from kivy.config import Config
 #Fix the window position. 
 # It is necessary that these lines be first, so that they run before everything else
 #if you want to move the window, comment these lines below.
-Config.set("graphics", "position", "custom")  # Set a custom position of the window
-Config.set("graphics", "left", 610)  # Custom position from left
-Config.set("graphics", "top", 190)  # Custom position from the top
-Config.set("graphics", "borderless", "1")  # Without a border
+# Config.set("graphics", "position", "custom")  # Set a custom position of the window
+# Config.set("graphics", "left", 610)  # Custom position from left
+# Config.set("graphics", "top", 190)  # Custom position from the top
+# Config.set("graphics", "borderless", "1")  # Without a border
 
 import kivy
 from kivy.app import App # create Kivy application
@@ -256,24 +256,24 @@ Builder.load_string(
             color: 1, 1, 1, 1
             outline_color: (0, 0, 0)
             outline_width: 4
-            on_press: root.manager.current = 'addname'
+            on_press: root.manager.current = 'addname'  # if the button is clicked, go back to addname screen
 
 """
 )
 
 class MyName(Screen):
     def click_me(self):
-        print('\nYou Have Confirmed Your Name')  #if select confirm, print a message accordingly
+        print('\nYou Have Confirmed Your Name')  # if select confirm, print a message accordingly
     pass
 
 
 class MainMenu(Screen):
     def click_sp(self):
-        print('\nOne player Mode') #if select one player mode, print a message accordingly
+        print('\nOne player Mode') # if select one player mode, print a message accordingly
     def click_mp(self):
-        print('\nTwo players Mode') #if select two players mode, print a message accordingly
+        print('\nTwo players Mode') # if select two players mode, print a message accordingly
     def click_exit(self):
-        print('\nGoodBye\n') #if select exit, print a message accordingly
+        print('\nGoodBye\n') # if select exit, print a message accordingly
     pass
 
 
@@ -281,13 +281,13 @@ class PlayMenu(Screen):
     pass
 
 
-class Player(Enum):
+class Player(Enum): # Enum representing player types (COMPUTER, HUMAN, EMPTY)
     COMPUTER = "O"
     HUMAN = "X"
     EMPTY = ""
 
 
-class SimpleBoard:
+class SimpleBoard: # Representing the game board state
 
     MAX_SCORE = 100
 
@@ -312,7 +312,7 @@ class SimpleBoard:
         return abs(evaluate(self)) == SimpleBoard.MAX_SCORE
 
 
-def get_possibilities(board, symbol):
+def get_possibilities(board, symbol): # Generates possible moves
     """
     :param board:   The board to insert :symbol: into
     :param symbol:  The symbol to insert into :board:
@@ -330,7 +330,7 @@ def get_possibilities(board, symbol):
     return out
 
 
-def evaluate(board):
+def evaluate(board): # Evaluate board state based on game situation
     """
     :param board:   The board to evaluate
     :return:        :board:'s score based on the number of 2 in a rows
@@ -380,7 +380,7 @@ def check_diags(board):
     return check_rows(diagonals)
 
 
-def minimax(board, depth):
+def minimax(board, depth): # Determines the best move for the computer
     """
     :param board:   The current gamestate
     :param depth:   How many moves the function can look ahead
@@ -393,7 +393,7 @@ def minimax(board, depth):
     return make_move(board, Player.COMPUTER, alpha, beta, depth, depth)
 
 
-def pick_highest(board):
+def pick_highest(board): # Selects the move with the highest score in a current gamestate
     """
     :param board:   The current gamestate
     :return:        The move with the highest rating
@@ -456,11 +456,6 @@ class Color(Enum):
     O = (32 / 255, 64 / 255, 163 / 255, 1)  # The color for the O's buttons
     X = (0.2, 0.8, 0.4, 1)  # The color for the X's buttons
 
-    # In Single Player Mode:
-    # COMPUTER = "O"
-    # HUMAN = "X"
-
-
 X, D, O = 0, 0, 0  # global variables for the scores
 
 
@@ -490,8 +485,8 @@ class Board(GridLayout):
         self.init_buttons()
         self.first_move()
 
-    def click_reset(self, reset=True):
-        print('\n=======\nRestart\n=======\n')
+    def click_reset(self, reset=True): 
+        print('\n=======\nRestart\n=======\n') # Print a message accordingly
 
     def init_buttons(self, reset=False):
         """
@@ -623,7 +618,7 @@ class Board(GridLayout):
     def bye(self, obj):  # Function for closing the app
         # Calling the closing function with the score board text
         Bye().myfunc(self.scoreboard.text)
-        self.popup_exit.dismiss()  # Do not forget to close the currnet popup ;)
+        self.popup_exit.dismiss()  
         self.reset_all(obj)  # Clear the board
 
     def updateScore(self, winner):  # Update the score board
