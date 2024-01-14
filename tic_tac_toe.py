@@ -589,6 +589,24 @@ class Board(GridLayout):
             auto_dismiss=True,
         )
 
+        # Add for it text and design and reposition it
+        self.box_popup.add_widget(
+            Label(
+                text="                               Are you sure you want to exit?",
+                font_size=22,
+                pos_hint={"x": 0, "y": 0.1},
+            )
+        )
+
+        self.box_popup.add_widget(
+            Button(
+                text="Yes",
+                on_release=self.bye,
+                size_hint=(0.45, 0.2),
+                background_color=(1, 0, 0, 1),
+            )
+        )
+
         self.box_popup.add_widget(
             Button(
                 text="No",
@@ -600,24 +618,29 @@ class Board(GridLayout):
 
         self.popup_exit.open()
 
-def bye(self, obj):  
+    def bye(self, obj):  # Function for closing the app
+        # Calling the closing function with the score board text
         Bye().myfunc(self.scoreboard.text)
-        self.popup_exit.dismiss()  
-        self.reset_all(obj)  
+        self.popup_exit.dismiss()  # Do not forget to close the currnet popup ;)
+        self.reset_all(obj)  # Clear the board
 
-def updateScore(self, winner): 
+    def updateScore(self, winner):  # Update the score board
+        # The initial score board text
         ScoreBoardText = "[color=2040a3]Score Board:[/color]\n[color=000000]  [color=145128]X[/color]: {} – {} :[color=102e87]O[/color][/color]\n        [color=000000]D: {}[/color]"
-        global X, O, D  
-        if winner == "The Winner is X!":  
-            X += 1  
-        elif winner == "The winner is O!":  
-            O += 1  
+        global X, O, D  # Our global variables: X, O and D (for draws)
+        # print(self.scoreboard.text)
+        if winner == "The Winner is X!":  # If the winner is X
+            X += 1  # Add 1 to the X's score
+        elif winner == "The winner is O!":  # If the winner is O
+            O += 1  # Add 1 to the O's score
         else:
+            # If the winner isn't X or O, it's a draw
             if winner == "It's a Draw!":
-                D += 1  
+                D += 1  # Add 1 to the draws score
+        # Upadating the score board text by replacing the {} signs with the new scores
         self.scoreboard.text = ScoreBoardText.format(X, O, D)
 
-def first_move(self):
+    def first_move(self):
         """
         Runs the first move if the first player is a computer
         :return:    None
@@ -625,23 +648,22 @@ def first_move(self):
         if (
             self.game_mode == GameMode.SINGLE_PLAYER
             and self.first_player == Player.COMPUTER
-        ):
+        ):  
             self.computer_move()
-
-def on_click(self, touch):
+            print('Starting Player : COMPUTER\n')
+ 
+    def on_click(self, touch):
         """
         Runs the code for the player's turn
         :param touch:   The button that was pressed
         :return:        None
         """
-        if self.click_sound:
-            self.click_sound.play()
         game_over = self.insert(touch, self.current_player.value)
         self.set_current_player()
         if not game_over and self.game_mode == GameMode.SINGLE_PLAYER:
             self.computer_move()
 
-def computer_move(self):
+    def computer_move(self):
         """
         Makes the computer's move (Single-player only)
         :return:        None
@@ -650,7 +672,8 @@ def computer_move(self):
         self.insert(self.button_list[i][j], self.current_player.value)
         self.set_current_player()
 
-def set_current_player(self):
+        
+    def set_current_player(self):
         """
         Sets the current player
         :return:        None
@@ -658,8 +681,9 @@ def set_current_player(self):
         self.current_player = (
             Player.COMPUTER if self.current_player != Player.COMPUTER else Player.HUMAN
         )
+       
 
-def insert(self, button, symbol):
+    def insert(self, button, symbol):
         """
         Places :symbol: on :button: and then checks if the game has ended
         :param button:  The button to place :symbol: on
@@ -679,14 +703,10 @@ def insert(self, button, symbol):
         self.title = "It's a Draw!" if is_full else None
         if symbol == "X":
             self.title = "The Winner is X!" if has_won else self.title
-            if self.game_mode == GameMode.SINGLE_PLAYER and has_won:
-                if self.win_game:
-                    self.win_game.play()
+            
         if symbol == "O":
             self.title = "The winner is O!" if has_won else self.title
-            if self.game_mode == GameMode.SINGLE_PLAYER and has_won:
-                if self.lose_game:
-                    self.lose_game.play()
+            
 
         if self.title is not None:
             # Print a message accordingly
@@ -696,7 +716,7 @@ def insert(self, button, symbol):
 
         return has_won or is_full
 
-def end_message(self, message):
+    def end_message(self, message):
         """
         Displays an end message and asks user to start a new game or exit
         :param message: The message to display
@@ -705,7 +725,7 @@ def end_message(self, message):
         self.disabled = True
         Clock.schedule_once(self.popup_contents, 2)
 
-def popup_contents(self, button):
+    def popup_contents(self, button):
         """
         Generates the contents for the end of game popup
         :return:    The popup's contents
@@ -755,9 +775,56 @@ def popup_contents(self, button):
             "\n~~~ New game is starting! ~~~\nClick everywhere in the screen to clear the board.\n"
         )
 
-def dismiss_popup(self, dt):  
+    def dismiss_popup(self, dt):  # function to dismiss the popup
         if self.popup:
+            self.popup.dismiss()  # Dismiss the popup
+
+    def goto_menu(self):
+        """
+        Resets the game and goes to the main menu
+        :return:    None
+        """
+
+        sm = self.parent.parent.manager
+        sm.transition.direction = "right"
+        self.reset_all(self)
+        sm.current = "menu"
+
+    def reset(self, button):
+        """
+        Resets the game, called from end of game popup
+        :return:    None
+        """
+        self.disabled = False
+        self.init_buttons(reset=True)
+        self.first_player = (
+            Player.COMPUTER if self.first_player != Player.COMPUTER else Player.HUMAN
+        )
+        self.current_player = self.first_player
+        self.first_move()
+
+    def reset_all(self, button):
+        """
+        Resets the game, called from end of game popup
+        :return:    None
+        """
+        self.scoreboard.text = "[color=2040a3]Score Board:[/color]\n[color=000000]  [color=145128]X[/color]: 0 – 0 :[color=102e87]O[/color][/color]\n        [color=000000]D: 0[/color]"
+        global X, O, D
+        X, O, D = 0, 0, 0
+
+        if self.popup is not None:
             self.popup.dismiss()
+            self.popup = None
+        self.disabled = False
+        self.init_buttons(reset=True)
+        self.first_player = (
+            Player.COMPUTER if self.first_player != Player.COMPUTER else Player.HUMAN
+        )
+        self.current_player = self.first_player
+        self.first_move()
+
+class Cell(Button):
+    pass
 
 class GameScreen(Screen):
     def __init__(self, **kwargs):
@@ -773,5 +840,3 @@ class GameScreen(Screen):
         board.add_widget(self.grid)
         self.add_widget(board)
 
-class Cell(Button):
-    pass
