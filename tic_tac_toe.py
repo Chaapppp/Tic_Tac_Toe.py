@@ -4,24 +4,24 @@ from kivy.config import Config
 #Fix the window position. 
 # It is necessary that these lines be first, so that they run before everything else
 #if you want to move the window, comment these lines below.
-# Config.set("graphics", "position", "custom")  # Set a custom position of the window
-# Config.set("graphics", "left", 610)  # Custom position from left
-# Config.set("graphics", "top", 190)  # Custom position from the top
-# Config.set("graphics", "borderless", "1")  # Without a border
+Config.set("graphics", "position", "custom")  # Set a custom position of the window
+Config.set("graphics", "left", 610)  # Custom position from left
+Config.set("graphics", "top", 190)  # Custom position from the top
+Config.set("graphics", "borderless", "1")  # Without a border
 
 import kivy
-from kivy.app import App # create Kivy application
+from kivy.app import App # Create Kivy application
 from kivy.uix.screenmanager import (
     ScreenManager,
     Screen,
     SwapTransition   
 )# change application screen
-from kivy.uix.modalview import ModalView # create modal views
-from kivy.core.window import Window # create Default window for application
-from kivy.uix.boxlayout import BoxLayout # create BoxLayout widget
+from kivy.uix.modalview import ModalView # Create modal views
+from kivy.core.window import Window # Create Default window for application
+from kivy.uix.boxlayout import BoxLayout # Create BoxLayout widget
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button # create button
-from kivy.uix.label import Label # create Label widget for text
+from kivy.uix.button import Button # Create button
+from kivy.uix.label import Label # Create Label widget for text
 from kivy.core.audio import SoundLoader 
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
@@ -256,6 +256,7 @@ Builder.load_string(
             color: 1, 1, 1, 1
             outline_color: (0, 0, 0)
             outline_width: 4
+            on_press: root.click_back()
             on_press: root.manager.current = 'addname'  # if the button is clicked, go back to addname screen
 
 """
@@ -274,6 +275,8 @@ class MainMenu(Screen):
         print('\nTwo players Mode') # if select two players mode, print a message accordingly
     def click_exit(self):
         print('\nGoodBye\n') # if select exit, print a message accordingly
+    def click_back(self):
+        print('\nWanna Change Your Name?\n') # if select back, print a message accordingly
     pass
 
 
