@@ -1,8 +1,9 @@
 import os 
 
 from kivy.config import Config 
-#fix the window position
+#Fix the window position. 
 # It is necessary that these lines be first, so that they run before everything else
+#if you want to move the window, comment these lines below.
 Config.set("graphics", "position", "custom")  # Set a custom position of the window
 Config.set("graphics", "left", 610)  # Custom position from left
 Config.set("graphics", "top", 190)  # Custom position from the top
@@ -462,6 +463,7 @@ class Color(Enum):
 
 X, D, O = 0, 0, 0  # global variables for the scores
 
+
 class Board(GridLayout):
     LENGTH = 3
 
@@ -823,8 +825,10 @@ class Board(GridLayout):
         self.current_player = self.first_player
         self.first_move()
 
+
 class Cell(Button):
     pass
+
 
 class Bye:
     # Exit the game and print Its results and the actual winner of all games
@@ -917,3 +921,53 @@ class GameScreen(Screen):
         board.add_widget(self.grid)
         self.add_widget(board)
 
+
+class TicTacToeApp(App):
+
+    __sm = None
+
+    def config_setup(self):
+        """
+        Configures the program
+        :return:    None
+        """
+        path = os.path.dirname(os.path.realpath(__file__))
+        os.chdir(path)
+        self.title = "Tic-Tac-Toe" 
+        self.icon = os.path.join("assets", "icon.png")
+        Window.clearcolor = (201 / 255, 230 / 255, 192 / 255)  # My background color
+        Window.size = (700, 700)  # Resize the window of the game to a square shape
+        print('\n==============================\nSetup Complete\n==============================')
+        print('Welcome to my Tic-Tac-Toe game\nHave Fun!!!\n\n\( ͡^ ω ͡❛)\n')
+
+
+    @staticmethod
+    def get_sm():
+        """
+        Generates the screen manager if it is None and returns it
+        :return:    The program's ScreenManager
+        """
+
+        if TicTacToeApp.__sm is None:
+            TicTacToeApp.__sm = ScreenManager(transition=SwapTransition())
+            TicTacToeApp.__sm.add_widget(MyName(name="addname"))
+            TicTacToeApp.__sm.add_widget(MainMenu(name="menu"))
+            TicTacToeApp.__sm.add_widget(
+                GameScreen(name="sp", game_mode=GameMode.SINGLE_PLAYER)
+            )
+            
+            TicTacToeApp.__sm.add_widget(
+                GameScreen(name="mp", game_mode=GameMode.MULTI_PLAYER)
+            )
+            
+        else:
+            print("hi")
+        return TicTacToeApp.__sm
+
+    def build(self):
+        self.config_setup()
+        return TicTacToeApp.get_sm()
+       
+
+if __name__ == "__main__":
+    TicTacToeApp().run()
