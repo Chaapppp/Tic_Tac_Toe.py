@@ -1,30 +1,26 @@
 import os 
 
-from kivy.config import Config # ใช้เพื่อปรับเปลี่ยน attributes ของ Object
-
-Config.set("graphics", "position", "custom") 
-Config.set("graphics", "left", 610) 
-Config.set("graphics", "top", 190) 
-Config.set("graphics", "borderless", "1")  
+from kivy.config import Config 
+#fix the window position
+# It is necessary that these lines be first, so that they run before everything else
+Config.set("graphics", "position", "custom")  # Set a custom position of the window
+Config.set("graphics", "left", 610)  # Custom position from left
+Config.set("graphics", "top", 190)  # Custom position from the top
+Config.set("graphics", "borderless", "1")  # Without a border
 
 import kivy
-from kivy.app import App # เรียกใช้เพื่อสร้าง Kivy application
+from kivy.app import App # create Kivy application
 from kivy.uix.screenmanager import (
     ScreenManager,
     Screen,
-    SlideTransition,
-    SwapTransition,
-    FadeTransition,
-    FallOutTransition,
-    RiseInTransition,
-    ShaderTransition
-)# เมื่อมีหลาย screen เรียกใช้เพื่อจัดการการเปลี่ยน screen ของ application
-from kivy.uix.modalview import ModalView # เรียกใช้เพื่อสร้าง modal views
-from kivy.core.window import Window # สร้าง Default window สำหรับ application
-from kivy.uix.boxlayout import BoxLayout # เรียกใช้เพื่อสร้าง BoxLayout widget
+    SwapTransition   
+)# change application screen
+from kivy.uix.modalview import ModalView # create modal views
+from kivy.core.window import Window # create Default window for application
+from kivy.uix.boxlayout import BoxLayout # create BoxLayout widget
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.button import Button # เรียกใช้เพื่อสร้างปุ่มกด
-from kivy.uix.label import Label # เรียกใช้เพื่อสร้าง Label widget สำหรับใส่ข้อความ
+from kivy.uix.button import Button # create button
+from kivy.uix.label import Label # create Label widget for text
 from kivy.core.audio import SoundLoader 
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
@@ -38,40 +34,74 @@ from kivy.core.window import Window
 
 Builder.load_string(
     """
-<Cell@Button>:
-    background_color: 102 / 255, 102 / 255, 102 / 255, 0.5
+#: kivy 1.11.0
+
+<Cell@Button>: 
+    background_color: 102 / 255, 102 / 255, 102 / 255, 0.5 #cell color
     font_size: 144
     background_normal: ''
     background_down: ''
 
+    
 <MyName@Screen>:
     canvas:
-        # Color:
-        #     rgba: 255, 248, 220, 0         
+        Color:
+            rgba: 201 / 255, 230 / 255, 192 / 255, 1        
         Rectangle:
-            source: "pngtree-cute-white-square-graphic-baby-blue-background-picture-image_1348682.jpg" #เปลี่ยนภาพ
             pos: self.pos
             size: self.size 
-            # size: root.size
-            # pos: root.pos
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (400,0)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (-500,300)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (-200,-500)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (70,440)
     Label:
         size_hint: None, None
-        text: "[color=075951]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        text: "[color=000000]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
         markup: True
         bold: True
         #color: 0, 0, 0, 1
-        font_size: 43
+        font_size: 63
         size: self.texture_size
         pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) + 100
     Label:
         size_hint: None, None
-        text: "[color=075951]Enter Your Name[/color]\\n\\n"
+        text: "[color=ffffff]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 0.2
+        font_size: 56
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) + 40
+    Label:
+        size_hint: None, None
+        text: "[color=000000]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 0.2
+        font_size: 63
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) - 30
+    Label:
+        size_hint: None, None
+        text: "[color=f9f9f9]Enter Your Name[/color]\\n\\n"
         markup: True
         bold: True
         #color: 0, 0, 0, 1
         font_size: 43
         size: self.texture_size
-        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) - 60
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) - 170
     
 
     GridLayout:
@@ -80,6 +110,7 @@ Builder.load_string(
         pos: ((root.width / 2) - (self.width/ 2)), 175
         spacing: 10
         cols: 3  
+
         TextInput:
             id : your_name
             hint_text : "Enter your name "
@@ -104,25 +135,61 @@ Builder.load_string(
             outline_color: (0, 0, 0)
             outline_width: 4
             #color: 0, 153 / 255, 102 / 255, 0.7
+            on_press: root.click_me()
             on_press: root.manager.current = 'menu'
-
+    
+            
 <MainMenu@Screen>:
     name: 'home'
     canvas:
         Color:
-            rgba: 0, 153 / 255, 102 / 255, 0.7
+            rgba: 201 / 255, 230 / 255, 192 / 255, 1 
         Rectangle:
             size: root.size
             pos: root.pos
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (400,0)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (-500,300)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (-200,-500)
+    Image:
+        source:'flower.png'
+        size: self.texture_size
+        pos: (70,440)
     Label:
         size_hint: None, None
-        text: "[color=075951]Welcome to my Tic-Tac-Toe game![/color]\\n\\n           [color=2040a3]Let's have some FUN[/color] [color=b79a00]:)[/color]"
+        text: "[color=000000]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
         markup: True
         bold: True
         #color: 0, 0, 0, 1
-        font_size: 43
+        font_size: 63
         size: self.texture_size
         pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) + 100
+    Label:
+        size_hint: None, None
+        text: "[color=ffffff]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 0.2
+        font_size: 56
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) + 40
+    Label:
+        size_hint: None, None
+        text: "[color=000000]Welcome to my Tic-Tac-Toe game![/color]\\n\\n"
+        markup: True
+        bold: True
+        #color: 0, 0, 0, 0.2
+        font_size: 63
+        size: self.texture_size
+        pos: ((root.width / 2) - (self.width/ 2)), ((root.height / 2) - (self.height / 2)) - 30
 
     GridLayout:
         size_hint: None, None
@@ -141,6 +208,7 @@ Builder.load_string(
             color: 1, 1, 1, 1
             outline_color: (0, 0, 0)
             outline_width: 4
+            on_press: root.click_mp()
             on_release: app.root.current = 'mp'
         
         Button:
@@ -154,8 +222,9 @@ Builder.load_string(
             outline_color: (0, 0, 0)
             outline_width: 4
             #color: 0, 153 / 255, 102 / 255, 0.7
-            on_release: app.root.current = 'sp'
-        
+            on_press: root.click_sp()
+            on_press: root.manager.current = 'sp'
+
         Button:
             text: 'Exit'
             background_normal: ""
@@ -166,7 +235,27 @@ Builder.load_string(
             color: 1, 1, 1, 1
             outline_color: (0, 0, 0)
             outline_width: 4
+            on_press: root.click_exit()
             on_release: quit()
+    
+    GridLayout:
+        size_hint: None, None
+        size: root.width * 0.9, 100
+        pos: ((root.width / 2) - (self.width/ 2)), 50
+        spacing: 10
+        cols: 1
+        
+        Button:
+            text: 'Back'
+            background_normal: ""
+            background_color: 0/255, 61/255, 153/255, 1
+            font_size: 35
+            markup: True
+            bold: True
+            color: 1, 1, 1, 1
+            outline_color: (0, 0, 0)
+            outline_width: 4
+            on_press: root.manager.current = 'addname'
 
 """
 )
