@@ -826,6 +826,83 @@ class Board(GridLayout):
 class Cell(Button):
     pass
 
+class Bye:
+    # Exit the game and print Its results and the actual winner of all games
+    def myfunc(self, text):
+        # Print a message accordingly
+        print("You chose to exit.\n\n  ~~~ GAME OVER ~~~\n——————————————————————")
+        # Getting the positions of any sign from the score board text
+        Xpos, Opos, Dpos = (
+            text[76],
+            text[80],
+            text[140],
+        )
+        winner = text
+        if Xpos > Opos:
+            if Xpos == "1":
+                winner = "The winner in all games is X,\nwith ONE win!\n"
+                print(winner)  # Print a message accordingly
+            else:
+                winner = "The winner in all games is X,\nwith " + str(Xpos) + " wins!\n"
+                print(winner)  # Print a message accordingly
+        elif Xpos < Opos:
+            if Opos == "1":
+                winner = "The winner in all games is O,\nwith ONE win!\n"
+                print(winner)  # Print a message accordingly
+            else:
+                winner = "The winner in all games is O,\nwith " + str(Opos) + " wins!\n"
+                print(winner)  # Print a message accordingly
+        else:
+            if Dpos > "0" or (Dpos == "0" and Xpos > "0" and Opos > "0"):
+                winner = "We have no winner,\nthe game ended in a draw!\n"
+                print(winner)  # Print a message accordingly
+            else:
+                winner = "You have not played any game,\nso we have no winner.\n\nThe game ended in a draw!\n"
+                print(winner)  # Print a message accordingly
+
+
+        self.popup = ModalView(
+            size_hint=(0.8, 0.4),
+            background_color=(0 / 255, 0 / 255, 0 / 255, 1),
+            auto_dismiss=False,
+        )
+
+        # Create and design the text labals, in a box layout
+        victory_label = BoxLayout(orientation="horizontal")
+
+        # Add the first text label, with the winner
+        self.sum_games = Label(
+            text=winner,
+            font_size=37,
+            bold=True,
+            markup=True,
+            pos_hint={"x": 0, "y": -0.05},
+            halign="center",
+            color=(200 / 255, 200 / 255, 200 / 255, 1),
+        )
+        victory_label.add_widget(self.sum_games)
+
+        self.popup.add_widget(victory_label)  # Add the labal to the popup
+        self.popup.open()  # Open the popup
+
+        # Schedule the change the label's text by 3.5 seconds
+        Clock.schedule_once(partial(Bye.text_change, self), 3.5)
+
+    def text_change(self, obj):
+        self.sum_games.text = "Have a nice day,\nGood Bye :)"
+        self.sum_games.font_size = 70
+        self.sum_games.pos_hint = {"x": 0, "y": 0}
+        self.sum_games.outline_width = 0
+
+        print("Have a nice day, Good Bye :)\n")  # Print a message accordingly
+
+        # Schedule the closing of the app by 2.5 seconds
+        Clock.schedule_once(partial(self.close), 2.5)
+
+    def close(self, obj):
+        App.get_running_app().stop()  # Stoping the app, GOOD BYE!
+
+
 class GameScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(name=kwargs["name"])
